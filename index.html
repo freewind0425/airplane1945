@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>GO AIR RAID v0.7 Assets Build</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="app">
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="hud" class="hud hidden">
+    <div class="hud-top">
+      <b id="stageText">STAGE 1</b>
+      <b id="modeText">AUTO</b>
+      <b>G <span id="runGold">0</span></b>
+    </div>
+    <div class="bar"><span class="hp" id="hpFill"></span></div>
+    <div class="bar"><span class="exp" id="xpFill"></span></div>
+    <div class="bar"><span class="od" id="odFill"></span></div>
+    <div class="bar"><span class="stage" id="stageFill"></span></div>
+  </div>
+
+  <div id="speedPanel" class="speed-panel hidden">
+    <button data-speed="3">x3</button>
+    <button data-speed="2">x2</button>
+    <button data-speed="1" class="active">x1</button>
+  </div>
+
+  <div id="weaponStatus" class="weapon-status hidden"></div>
+
+  <div id="gameControls" class="game-controls hidden">
+    <button class="exit-btn" id="endRunBtn">정산</button>
+    <button class="od-btn" id="odBtn">OVER DRIVE</button>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <section id="lobby" class="screen active">
+    <div class="top-line">
+      <div>
+        <h1>GO AIR RAID</h1>
+        <p>Build Test v0.7 / Phase 1 Asset Build</p>
+      </div>
+      <div class="wallet"><b id="goldText">0</b> G<br><b id="rpText">0</b> RP</div>
+    </div>
+
+    <div id="offlinePanel" class="panel hidden">
+      <h2>Welcome Back</h2>
+      <p>오프라인 보상은 AUTO 효율의 40%입니다.</p>
+      <div class="reward"><b id="offlineGold">0</b> Gold / <b id="offlineExp">0</b> EXP</div>
+      <button class="primary" id="claimOfflineBtn">획득</button>
+    </div>
+
+    <div class="hero-panel panel">
+      <div>
+        <div class="label">SELECTED AIRCRAFT</div>
+        <h2 id="selectedName">FALCON</h2>
+        <p id="selectedDesc">정통 강습기</p>
+        <div class="stat-line">PILOT Lv.<span id="pilotLv">1</span> / EXP <span id="pilotExp">0</span></div>
+        <div class="stat-line">기본 무기: <b id="baseWeaponText">직선 미사일</b></div>
+      </div>
+      <img id="selectedAircraftImg" src="assets/aircraft/falcon_lv5.svg" alt="selected aircraft" />
+    </div>
+
+    <button class="start-btn" id="startRunBtn">게임시작!!</button>
+
+    <div class="tab-row">
+      <button class="tab active" data-tab="aircraftTab">기체</button>
+      <button class="tab" data-tab="missionTab">일일 미션</button>
+      <button class="tab" data-tab="researchTab">연구소</button>
+    </div>
+
+    <div id="aircraftTab" class="tab-page active">
+      <div class="section-title">기체 도감</div>
+      <div id="aircraftList" class="aircraft-list"></div>
+    </div>
+
+    <div id="missionTab" class="tab-page">
+      <div class="section-title">일일 미션</div>
+      <div id="dailyList"></div>
+    </div>
+
+    <div id="researchTab" class="tab-page">
+      <div class="section-title">연구소</div>
+      <div id="researchList"></div>
+    </div>
+  </section>
+
+  <div id="levelModal" class="modal">
+    <div class="modal-box">
+      <h2>레벨업</h2>
+      <p id="levelTimer">자동 선택까지 5초</p>
+      <div id="cardList"></div>
+    </div>
+  </div>
+
+  <div id="resultModal" class="modal">
+    <div class="modal-box">
+      <h2>정산</h2>
+      <div id="resultText"></div>
+      <button class="primary" id="closeResultBtn">로비로</button>
+    </div>
+  </div>
+</div>
+<script src="js/game.js"></script>
+</body>
+</html>
