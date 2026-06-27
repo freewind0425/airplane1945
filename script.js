@@ -1,44 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>GO AIR RAID - Build Test v0.6</title>
-<style>
-*{box-sizing:border-box;user-select:none;-webkit-user-select:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050711;color:#fff;font-family:Arial,"Noto Sans KR",sans-serif}button{font-family:inherit;cursor:pointer;border:0}#app{position:relative;width:100%;height:100%;max-width:720px;margin:0 auto;background:#07101f;overflow:hidden}.screen{position:absolute;inset:0;display:none;z-index:20;background:radial-gradient(circle at 50% 0%,#1d335d,#07101f 62%,#030711);padding:18px;overflow:auto}.screen.active{display:block}.title{font-size:34px;font-weight:1000;color:#ffdf3d;text-shadow:0 0 15px #ff7a00;margin:10px 0 4px}.sub{font-size:13px;color:#9fb6df;line-height:1.45}.panel{background:rgba(12,20,40,.84);border:1px solid #28436f;border-radius:16px;padding:14px;margin:12px 0;box-shadow:0 0 18px rgba(0,255,204,.08)}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{background:#00ffcc;color:#041018;font-weight:1000;border-radius:11px;padding:12px 14px}.btn.alt{background:#ffd32a}.btn.dark{background:#17243d;color:#d8e7ff;border:1px solid #304d7a}.btn:disabled{opacity:.45}.small{font-size:12px;color:#9fb6df}.num{font-weight:1000;color:#ffd32a}.card{background:#0d1930;border:1px solid #2e4d7b;border-radius:13px;padding:12px;margin:8px 0}.card.selected{border-color:#00ffcc;box-shadow:0 0 16px rgba(0,255,204,.22)}.card h3{margin:0 0 6px;color:#00ffcc;font-size:16px}.badge{display:inline-block;padding:3px 7px;border-radius:999px;background:rgba(255,223,61,.14);color:#ffdf3d;font-size:11px;font-weight:900;margin-right:5px}.topbar{position:absolute;left:0;right:0;top:0;z-index:10;padding:10px;background:linear-gradient(to bottom,rgba(3,7,17,.96),rgba(3,7,17,0))}.hudrow{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:900}.bars{display:grid;gap:5px;margin-top:6px}.bar{height:8px;background:#121b2c;border:1px solid #26354f;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:#00ffcc}.fill.hp{background:#ff4757}.fill.od{background:#ffd32a}.fill.stage{background:#7d5fff}.gamebtns{position:absolute;left:10px;right:10px;bottom:12px;z-index:11;display:flex;gap:8px;align-items:flex-end}.odbtn{flex:1;height:58px;border-radius:16px;background:#ffd32a;color:#120b00;font-size:16px;font-weight:1000;box-shadow:0 0 20px rgba(255,211,42,.45)}.odbtn.active{background:#ff4757;color:white}.odbtn:disabled{background:#304050;color:#8ca0bf;box-shadow:none}.exitbtn{width:82px;height:48px;border-radius:13px;background:#17243d;color:#d8e7ff;border:1px solid #304d7a;font-weight:900}canvas{position:absolute;inset:0;width:100%;height:100%;background:#07101f;touch-action:none}.modal{position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(3,7,17,.82);backdrop-filter:blur(5px);padding:18px}.modal.active{display:flex}.modalbox{width:100%;max-width:430px;background:#0b1528;border:1px solid #395d91;border-radius:18px;padding:18px}.modalbox h2{margin:0 0 8px;color:#ffdf3d}.choice{border:1px solid #2e4d7b;background:#0d1930;border-radius:13px;padding:14px;margin:9px 0}.choice h3{margin:0 0 5px;color:#00ffcc;font-size:17px}.choice p{margin:0;color:#bdd0ee;font-size:13px;line-height:1.35}.status{position:absolute;top:94px;right:8px;z-index:9;background:rgba(3,7,17,.5);border:1px solid #273a5e;border-radius:12px;padding:8px;font-size:11px;color:#cfe0ff;min-width:130px}.status div{display:flex;justify-content:space-between;gap:8px;margin:3px 0}.toast{position:absolute;left:50%;top:86px;transform:translateX(-50%);z-index:40;background:rgba(0,255,204,.92);color:#031018;padding:9px 14px;border-radius:99px;font-size:13px;font-weight:1000;display:none}.toast.show{display:block}@media(max-width:520px){.grid{grid-template-columns:1fr}.title{font-size:30px}}
-</style>
-</head>
-<body>
-<div id="app">
-  <canvas id="gameCanvas"></canvas>
-  <div class="topbar" id="hud" style="display:none">
-    <div class="hudrow"><span id="stageText">STAGE 1</span><span id="modeText">AUTO</span><span>G <b id="runGold">0</b></span></div>
-    <div class="bars"><div class="bar"><div class="fill hp" id="hpFill"></div></div><div class="bar"><div class="fill" id="xpFill"></div></div><div class="bar"><div class="fill od" id="odFill"></div></div><div class="bar"><div class="fill stage" id="stageFill"></div></div></div>
-  </div>
-  <div class="status" id="weaponStatus" style="display:none"></div>
-  <div class="gamebtns" id="gameBtns" style="display:none"><button class="exitbtn" onclick="endRun()">정산</button><button class="odbtn" id="odBtn" onclick="toggleOverdrive()">OVER DRIVE</button></div>
-  <div class="toast" id="toast"></div>
 
-  <section id="lobby" class="screen active">
-    <div class="title">GO AIR RAID</div>
-    <div class="sub">Build Test v0.6 / 진화 버그 수정 / 데이터 테이블 적용</div>
-    <div class="panel row"><div><b>파일럿 Lv.<span id="pilotLv"></span></b><div class="small">EXP <span id="pilotExp"></span></div></div><div><span class="num" id="goldText"></span> G<br><span class="num" id="rpText"></span> RP</div></div>
-    <div class="panel" id="offlinePanel" style="display:none"><h3>Welcome Back</h3><div class="small">오프라인 보상은 AUTO 효율의 40%입니다.</div><p><b id="offlineGold"></b> Gold / <b id="offlineExp"></b> Pilot EXP 획득</p><button class="btn" onclick="claimOffline()">획득</button></div>
-    <div class="panel"><div class="row"><h3>기체 도감</h3><button class="btn dark" onclick="showTab('research')">연구소</button></div><div id="aircraftList"></div></div>
-    <div class="panel"><h3>일일 미션</h3><div id="dailyList"></div></div>
-    <button class="btn" style="width:100%;height:56px;font-size:18px" onclick="startRun()">출격</button>
-  </section>
-
-  <section id="research" class="screen">
-    <div class="row"><div><div class="title">연구소</div><div class="sub">RP로 계정 전체 성장</div></div><button class="btn dark" onclick="showTab('lobby')">로비</button></div>
-    <div class="panel row"><span>보유 RP</span><b class="num" id="rpText2"></b></div>
-    <div id="researchList"></div>
-  </section>
-
-  <div class="modal" id="levelModal"><div class="modalbox"><h2>레벨업</h2><div class="small">무기 획득, 강화, 진화를 선택하세요.</div><div id="cardList"></div></div></div>
-  <div class="modal" id="resultModal"><div class="modalbox"><h2>정산</h2><div id="resultText"></div><button class="btn" style="width:100%" onclick="closeResult()">로비로</button></div></div>
-</div>
-<script>
 const DATA={
   offlineRate:.4, offlineMaxHours:8,
   overdrive:{maxGauge:100,drainPerFrame:.12,chargePerFrame:.035,attackSpeed:1.7,spawnRate:1.8,reward:1.5},
@@ -147,6 +107,3 @@ function makeCards(){
   return Array.from(map.values()).sort(()=>Math.random()-.5).slice(0,3);
 }
 renderLobby();save();
-</script>
-</body>
-</html>
