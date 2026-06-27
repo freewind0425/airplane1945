@@ -3,40 +3,107 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GO ARCADE - 1945</title>
+  <title>GO ARCADE</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="crt"></div>
-  <main class="wrap">
-    <header class="hero">
-      <p class="eyebrow">MINI GAME PORTFOLIO</p>
-      <h1>GO ARCADE</h1>
-      <p class="subtitle">1945 스타일 2D 비행 슈팅 게임</p>
-    </header>
-    <section class="machine">
-      <div class="screen-panel">
-        <canvas id="game" width="420" height="640"></canvas>
-        <div id="startPanel" class="overlay">
-          <h2>1945 AIR RAID</h2>
-          <p>적기를 격추하고 아이템을 먹어 기체를 강화하세요.</p>
-          <div class="keys"><span>WASD / 방향키 이동</span><span>SPACE 발사</span><span>P 일시정지</span></div>
-          <button id="startBtn">PRESS START</button>
-        </div>
-        <div id="gameOverPanel" class="overlay hidden">
-          <h2>GAME OVER</h2><p id="finalScore">SCORE 0</p><button id="restartBtn">RESTART</button>
+  <div class="scanline"></div>
+
+  <main id="app">
+    <section id="home" class="page active">
+      <div class="marquee">
+        <span>GO ARCADE</span>
+      </div>
+
+      <p class="subtitle">MINI GAME PORTFOLIO</p>
+
+      <div class="cabinet">
+        <div class="screen">
+          <h1>INSERT COIN</h1>
+          <p>게임을 선택하고 바로 플레이하세요</p>
+          <button id="coinBtn" class="neon-btn">COIN START</button>
         </div>
       </div>
-      <aside class="side-panel">
-        <div class="score-box"><span>SCORE</span><strong id="score">0</strong></div>
-        <div class="score-box"><span>BEST</span><strong id="best">0</strong></div>
-        <div class="score-box"><span>LEVEL</span><strong id="level">1</strong></div>
-        <div class="score-box"><span>HP</span><strong id="hp">3</strong></div>
-        <div class="manual"><h3>UPGRADE</h3><p>파란 아이템: 발사 수 증가</p><p>노란 아이템: 공격 속도 증가</p><p>초록 아이템: HP 회복</p></div>
-      </aside>
+
+      <section class="game-grid">
+        <button class="game-card" data-game="airplane">
+          <span class="badge">PLAYABLE</span>
+          <strong>1945 AIR RAID</strong>
+          <em>수직 스크롤 슈팅</em>
+        </button>
+
+        <button class="game-card locked">
+          <span class="badge">COMING SOON</span>
+          <strong>TETRIS</strong>
+          <em>클래식 퍼즐</em>
+        </button>
+
+        <button class="game-card locked">
+          <span class="badge">COMING SOON</span>
+          <strong>BRICK BREAKER</strong>
+          <em>벽돌깨기</em>
+        </button>
+
+        <button class="game-card locked">
+          <span class="badge">COMING SOON</span>
+          <strong>EQUIPMENT TETRIS</strong>
+          <em>장착 퍼즐</em>
+        </button>
+      </section>
+
+      <footer>
+        <span>v1.0</span>
+        <span>HTML5 / CSS / JS</span>
+        <span>GitHub Pages Ready</span>
+      </footer>
     </section>
-    <section class="portfolio"><h2>COMING SOON</h2><div class="cards"><a class="card disabled">TETRIS</a><a class="card disabled">BRICK BREAKER</a><a class="card disabled">EQUIPMENT TETRIS</a></div></section>
+
+    <section id="airplanePage" class="page">
+      <header class="game-header">
+        <button id="backBtn" class="small-btn">← ARCADE</button>
+        <h2>1945 AIR RAID</h2>
+        <button id="restartGameBtn" class="small-btn">RESTART</button>
+      </header>
+
+      <section class="game-layout">
+        <div class="game-frame">
+          <canvas id="gameCanvas" width="420" height="640"></canvas>
+
+          <div id="startOverlay" class="game-overlay">
+            <h2>1945 AIR RAID</h2>
+            <p>적기를 격추하고 아이템으로 기체를 강화하세요.</p>
+            <div class="control-guide">
+              <span>이동: WASD / 방향키</span>
+              <span>발사: SPACE</span>
+              <span>일시정지: P</span>
+            </div>
+            <button id="startGameBtn" class="neon-btn">PRESS START</button>
+          </div>
+
+          <div id="gameOverOverlay" class="game-overlay hidden">
+            <h2>GAME OVER</h2>
+            <p id="finalScore">SCORE 0</p>
+            <button id="retryBtn" class="neon-btn">RETRY</button>
+          </div>
+        </div>
+
+        <aside class="hud">
+          <div><span>SCORE</span><strong id="score">0</strong></div>
+          <div><span>BEST</span><strong id="best">0</strong></div>
+          <div><span>LEVEL</span><strong id="level">1</strong></div>
+          <div><span>HP</span><strong id="hp">3</strong></div>
+          <article>
+            <h3>ITEM</h3>
+            <p><b>P</b> 공격 단계 상승</p>
+            <p><b>S</b> 연사 속도 상승</p>
+            <p><b>+</b> 체력 회복</p>
+          </article>
+        </aside>
+      </section>
+    </section>
   </main>
+
   <script src="game.js"></script>
 </body>
 </html>
