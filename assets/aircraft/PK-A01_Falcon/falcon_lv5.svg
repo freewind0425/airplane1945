@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<defs><filter id="g"><feGaussianBlur stdDeviation="6"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<ellipse cx="256" cy="380" rx="110" ry="28" fill="#03101f" opacity=".55"/>
+<path d="M256 60 L174 315 L256 420 L338 315 Z" fill="#f7f3e8" stroke="#111827" stroke-width="8"/>
+<path d="M256 112 L226 310 L256 356 L286 310 Z" fill="#b91c1c" opacity=".95"/>
+<path d="M182 240 L96 310 L194 330 Z" fill="#b91c1c" stroke="#111827" stroke-width="5"/>
+<path d="M330 240 L416 310 L318 330 Z" fill="#b91c1c" stroke="#111827" stroke-width="5"/>
+<circle cx="256" cy="255" r="29" fill="#38bdf8" filter="url(#g)"/>
+<rect x="246" y="70" width="20" height="90" rx="8" fill="#f6d35c" opacity=".9"/><path d="M151 230 L111 300 L156 285 Z" fill="#38bdf8" opacity=".55"/><path d="M361 230 L401 300 L356 285 Z" fill="#38bdf8" opacity=".55"/>
+<rect x="185" y="355" width="18" height="80" rx="8" fill="#1f2937"/>
+<rect x="309" y="355" width="18" height="80" rx="8" fill="#1f2937"/>
+<path d="M225 415 Q256 465 287 415" fill="#38bdf8" opacity=".7"/>
+</svg>

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "straight",
+    "name": "Straight Cannon",
+    "role": "front dps",
+    "maxLevel": 5,
+    "rhythm": "rapid",
+    "screenOccupancy": 20
+  },
+  {
+    "id": "missile",
+    "name": "Guided Missile",
+    "role": "homing",
+    "maxLevel": 5,
+    "rhythm": "single",
+    "screenOccupancy": 40
+  },
+  {
+    "id": "laser",
+    "name": "Laser",
+    "role": "pierce",
+    "maxLevel": 5,
+    "rhythm": "sustain",
+    "screenOccupancy": 55
+  },
+  {
+    "id": "chain",
+    "name": "Chain",
+    "role": "area bounce",
+    "maxLevel": 5,
+    "rhythm": "tick",
+    "screenOccupancy": 35
+  },
+  {
+    "id": "shield",
+    "name": "Shield",
+    "role": "defense",
+    "maxLevel": 5,
+    "rhythm": "hum",
+    "screenOccupancy": 15
+  }
+]

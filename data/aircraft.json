@@ -1,0 +1,34 @@
+[
+  {
+    "id": "PK-A01",
+    "name": "Falcon",
+    "class": "Balance",
+    "role": "Assault",
+    "difficulty": 1,
+    "defaultWeapon": "straight",
+    "coreColor": "blue",
+    "palette": [
+      "white",
+      "red",
+      "gold",
+      "gunmetal"
+    ],
+    "levels": 5
+  },
+  {
+    "id": "PK-B01",
+    "name": "Vulcan",
+    "class": "Heavy",
+    "role": "Tank",
+    "difficulty": 2,
+    "defaultWeapon": "scatter",
+    "coreColor": "orange",
+    "palette": [
+      "black",
+      "gold",
+      "orange",
+      "gunmetal"
+    ],
+    "levels": 5
+  }
+]

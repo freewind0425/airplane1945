@@ -1,0 +1,26 @@
+[
+  {
+    "id": "boss_01",
+    "name": "AI Carrier",
+    "stage": 5,
+    "hp": 800
+  },
+  {
+    "id": "boss_02",
+    "name": "Drone Fortress",
+    "stage": 10,
+    "hp": 1600
+  },
+  {
+    "id": "boss_03",
+    "name": "Omega Core",
+    "stage": 15,
+    "hp": 2800
+  },
+  {
+    "id": "boss_04",
+    "name": "Final Titan",
+    "stage": 20,
+    "hp": 4500
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "normal",
+    "name": "Drone",
+    "hp": 12,
+    "speed": 55,
+    "gold": 2,
+    "exp": 8,
+    "threat": 1
+  },
+  {
+    "id": "fast",
+    "name": "Interceptor",
+    "hp": 8,
+    "speed": 110,
+    "gold": 3,
+    "exp": 10,
+    "threat": 2
+  },
+  {
+    "id": "bomber",
+    "name": "Bomber",
+    "hp": 40,
+    "speed": 38,
+    "gold": 8,
+    "exp": 20,
+    "threat": 3
+  },
+  {
+    "id": "suicide",
+    "name": "Hunter",
+    "hp": 18,
+    "speed": 95,
+    "gold": 5,
+    "exp": 15,
+    "threat": 3
+  },
+  {
+    "id": "elite",
+    "name": "Elite Drone",
+    "hp": 120,
+    "speed": 45,
+    "gold": 25,
+    "exp": 55,
+    "threat": 4
+  }
+]

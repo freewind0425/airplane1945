@@ -1,16 +1,106 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"><title>Project K - GO AIR RAID</title><link rel="stylesheet" href="css/style.css"></head><body><div id="app">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>Project K - GO AIR RAID</title>
+<style>
+*{box-sizing:border-box} body{margin:0;background:#06101e;color:#fff;font-family:Arial, sans-serif;overflow:hidden}
+#app{width:100vw;height:100vh;position:relative;background:radial-gradient(circle at 50% 25%,#1b335a,#050916 70%)}
+.screen{position:absolute;inset:0;display:none}.screen.active{display:block}
+#lobby{padding:18px;text-align:center}
+.top{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:#f6d35c}
+.title{font-size:28px;font-weight:900;margin:18px 0 4px}.sub{color:#8fb7ff;font-size:12px}
+.hangar{height:58vh;display:flex;align-items:center;justify-content:center;position:relative}
+.shipCard{width:82%;height:82%;border:1px solid rgba(255,255,255,.18);border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(64,137,255,.16)}
+.shipSvg{width:230px;height:230px;filter:drop-shadow(0 18px 18px rgba(0,0,0,.45))}
+.shipName{font-size:24px;font-weight:900;color:#fff}.role{font-size:12px;color:#9fb8d7;margin-top:4px}
+.tabs{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:8px;padding:12px}
+.tab{border:1px solid rgba(255,255,255,.15);background:rgba(4,10,24,.75);color:#cfe4ff;border-radius:16px;padding:12px;font-weight:800}
+.start{background:linear-gradient(135deg,#eab308,#b91c1c);color:white;font-size:18px}
+#gameCanvas{width:100%;height:100%;display:block;background:linear-gradient(#071127,#101b32)}
+.hud{pointer-events:none;position:absolute;inset:0}
+.hudTop{position:absolute;top:8px;left:8px;right:8px;display:flex;align-items:center;gap:8px;font-size:12px}
+.panel{background:rgba(3,8,20,.75);border:1px solid rgba(114,169,255,.25);border-radius:12px;padding:8px 10px;font-weight:800}
+.progress{height:8px;background:#172033;border-radius:8px;overflow:hidden;flex:1}.fill{height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#f6d35c)}
+.pause{pointer-events:auto;margin-left:auto;border:0;border-radius:12px;background:#13233d;color:#fff;padding:9px 12px;font-weight:900}
+.leftBars{position:absolute;top:58px;left:8px;width:96px;font-size:11px}.bar{height:8px;background:#172033;border-radius:8px;margin:5px 0 9px;overflow:hidden}.bar>i{display:block;height:100%;background:#38bdf8}.hp>i{background:#ef4444}
+.weapons{position:absolute;top:58px;right:8px;width:125px;font-size:11px;color:#dbeafe}
+.levelCore{pointer-events:auto;position:absolute;left:10px;bottom:14px;width:96px;height:96px;border:2px solid #f6d35c;background:radial-gradient(circle,#7c2d12,#111827 70%);clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);color:#fff;font-weight:900;display:none;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 0 22px rgba(246,211,92,.55)}
+.speed{pointer-events:auto;position:absolute;right:18px;bottom:22px;width:70px;height:70px;border-radius:50%;border:2px solid #38bdf8;background:#0b1830;color:#fff;font-weight:900}
+.modal{position:absolute;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:30}.cards{display:flex;gap:12px}.card{width:29vw;max-width:160px;min-height:190px;border:1px solid #38bdf8;background:linear-gradient(180deg,#101f3e,#071127);border-radius:18px;padding:14px;text-align:center;color:#fff}.card h3{font-size:16px}.card p{font-size:12px;color:#cfe4ff}.card.gold{border-color:#f6d35c;box-shadow:0 0 22px rgba(246,211,92,.35)}
+#toast{position:absolute;left:50%;transform:translateX(-50%);bottom:120px;background:rgba(0,0,0,.7);padding:10px 14px;border-radius:12px;display:none}
+</style>
+</head>
+<body>
+<div id="app">
 <section id="lobby" class="screen active">
-  <div class="topbar"><div class="brand">PROJECT K</div><div class="res"><div class="pill">PILOT Lv.<span id="pilotLv">1</span></div><div class="pill">G <span id="goldView">0</span></div><div class="pill">RP <span id="rpView">0</span></div></div></div>
-  <button id="missionIcon" class="mission-icon has">☑</button>
-  <div class="lobby-main">
-    <div class="panel side"><h3>연구소</h3><div id="researchList" class="side-list"></div></div>
-    <div class="panel aircraft-stage"><div class="ship-title" id="shipName">FALCON</div><img id="lobbyShip" class="ship-img"><div class="mini-card">기본 무기: <b id="baseWeapon">직선 캐논</b></div><button id="startBtn" class="start-btn">게임시작!!</button></div>
-    <div class="panel side"><h3>기체 도감</h3><div id="aircraftList" class="side-list"></div></div>
+  <div class="top"><div>GOLD 0</div><div>RP 0</div><div>⚙</div></div>
+  <div class="title">PROJECT K</div><div class="sub">GO AIR RAID / BUILD v1.0.7</div>
+  <div class="hangar">
+    <div class="shipCard">
+      <div id="lobbyShip" class="shipSvg"></div>
+      <div class="shipName">PK-A01 FALCON</div>
+      <div class="role">Balance Assault / Straight Cannon</div>
+    </div>
   </div>
-  <div class="bottom-nav"><button class="nav-btn">연구소</button><button class="nav-btn active">기체</button><button class="nav-btn">도감</button></div>
+  <div class="tabs">
+    <button class="tab" onclick="toast('연구소는 다음 Sprint에서 활성화')">연구소</button>
+    <button id="startBtn" class="tab start">게임시작!!</button>
+    <button class="tab" onclick="toggleShip()">기체 변경</button>
+  </div>
 </section>
-<section id="game" class="screen"><canvas id="gameCanvas"></canvas><div class="game-hud"><div class="game-top"><div><div class="stage" id="stageText">STAGE 1</div><div class="bar"><div id="hpFill" class="fill"></div></div><div class="bar"><div id="xpFill" class="fill" style="background:#7c5cff"></div></div></div><div class="gold">G <span id="runGold">0</span></div><button id="pauseBtn" class="pause">Ⅱ</button></div><div id="weaponPanel" class="weapon-panel"></div><div class="bottom-left"><button id="levelCore" class="level-core">LEVEL UP<b>0</b></button><button id="speedBtn" class="speed-btn">⏩<br>x1</button></div></div><div class="hint">드래그/마우스로 기체 이동</div></section>
-<div id="levelModal" class="modal"><div class="modal-box"><button id="closeLevel" class="close">닫기</button><div class="modal-title">LEVEL UP CORE</div><div id="cardList" class="level-cards"></div></div></div>
-<div id="missionModal" class="modal"><div class="modal-box"><button id="closeMission" class="close">닫기</button><div class="modal-title">일일 미션</div><div id="missionList"></div></div></div>
-<div id="toast" class="toast"></div>
-</div><script src="js/main.js"></script></body></html>
+<section id="game" class="screen">
+  <canvas id="gameCanvas"></canvas>
+  <div class="hud">
+    <div class="hudTop"><div class="panel" id="stageText">STAGE 1</div><div class="panel" id="killText">KILL 0/25</div><div class="progress"><div class="fill" id="stageFill"></div></div><button class="pause" id="pauseBtn">Ⅱ</button></div>
+    <div class="leftBars"><div>HP</div><div class="bar hp"><i id="hpFill" style="width:100%"></i></div><div>EXP</div><div class="bar"><i id="expFill" style="width:0%"></i></div></div>
+    <div class="weapons panel" id="weaponText">Straight Lv1<br>Laser Lv0<br>Chain Lv0</div>
+    <button class="levelCore" id="levelBtn"><span>LEVEL</span><b id="levelCount">1</b></button>
+    <button class="speed" id="speedBtn">⏩<br>x1</button>
+  </div>
+  <div class="modal" id="levelModal"><div class="cards" id="cards"></div></div>
+  <div id="toast"></div>
+</section>
+</div>
+<script>
+const lobbyShip=document.getElementById('lobbyShip');
+let selected='falcon';
+function shipSvg(type='falcon',lv=5){
+ const falcon=type==='falcon';
+ const main=falcon?'#f7f3e8':'#1f2937', accent=falcon?'#b91c1c':'#d97706', core=falcon?'#38bdf8':'#fb923c';
+ const wing=35+lv*9, body=52+lv*6, rail=lv>=4?'<rect x="246" y="70" width="20" height="90" rx="8" fill="#f6d35c" opacity=".9"/>':'';
+ const energy=lv>=5?`<path d="M${256-wing-25} 230 L${256-wing-65} 300 L${256-wing-20} 285 Z" fill="${core}" opacity=".55"/><path d="M${256+wing+25} 230 L${256+wing+65} 300 L${256+wing+20} 285 Z" fill="${core}" opacity=".55"/>`:'';
+ return `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><defs><filter id="g"><feGaussianBlur stdDeviation="6"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><ellipse cx="256" cy="380" rx="${70+lv*8}" ry="28" fill="#03101f" opacity=".55"/><path d="M256 60 L${256-body} 315 L256 420 L${256+body} 315 Z" fill="${main}" stroke="#111827" stroke-width="8"/><path d="M256 112 L${256-20-lv*2} 310 L256 356 L${256+20+lv*2} 310 Z" fill="${accent}" opacity=".95"/><path d="M${256-body+8} 240 L${256-wing-80} 310 L${256-body+20} 330 Z" fill="${accent}" stroke="#111827" stroke-width="5"/><path d="M${256+body-8} 240 L${256+wing+80} 310 L${256+body-20} 330 Z" fill="${accent}" stroke="#111827" stroke-width="5"/><circle cx="256" cy="255" r="${14+lv*3}" fill="${core}" filter="url(#g)"/>${rail}${energy}<rect x="${225-lv*8}" y="355" width="18" height="${55+lv*5}" rx="8" fill="#1f2937"/><rect x="${269+lv*8}" y="355" width="18" height="${55+lv*5}" rx="8" fill="#1f2937"/><path d="M225 415 Q256 465 287 415" fill="${core}" opacity=".7"/></svg>`;
+}
+lobbyShip.innerHTML=shipSvg('falcon',5);
+function toggleShip(){ selected=selected==='falcon'?'vulcan':'falcon'; lobbyShip.innerHTML=shipSvg(selected,5); document.querySelector('.shipName').textContent= selected==='falcon'?'PK-A01 FALCON':'PK-B01 VULCAN'; document.querySelector('.role').textContent= selected==='falcon'?'Balance Assault / Straight Cannon':'Heavy Assault / Scatter Cannon'; }
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',1200)}
+const canvas=document.getElementById('gameCanvas'), ctx=canvas.getContext('2d');
+let W=0,H=0, running=false, paused=false,last=0,speed=1,slow=1;
+let player, bullets=[], enemies=[], particles=[], boss=null;
+let stage=1,kills=0,killGoal=25,exp=0,expNeed=50,levelPoints=0,weapons={straight:1,laser:0,chain:0,shield:0};
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+window.addEventListener('resize',resize);
+document.getElementById('startBtn').onclick=()=>{document.getElementById('lobby').classList.remove('active');document.getElementById('game').classList.add('active');setTimeout(()=>{resize();startGame();},50)}
+document.getElementById('pauseBtn').onclick=()=>{paused=!paused;document.getElementById('pauseBtn').textContent=paused?'▶':'Ⅱ'}
+document.getElementById('speedBtn').onclick=()=>{speed=speed>=5?1:speed+1;document.getElementById('speedBtn').innerHTML='⏩<br>x'+speed;toast('SPEED x'+speed)}
+document.getElementById('levelBtn').onclick=openLevel;
+function startGame(){running=true;paused=false;last=performance.now();player={x:W/2,y:H-95,hp:100,maxHp:100,lv:1,fire:0};bullets=[];enemies=[];particles=[];boss=null;stage=1;kills=0;killGoal=25;exp=0;levelPoints=0;requestAnimationFrame(loop)}
+let drag=false; canvas.addEventListener('pointerdown',e=>{drag=true;move(e)}); canvas.addEventListener('pointermove',e=>{if(drag)move(e)}); window.addEventListener('pointerup',()=>drag=false); function move(e){const r=canvas.getBoundingClientRect();player.x=e.clientX-r.left;player.y=e.clientY-r.top-35}
+function loop(t){if(!running)return; let dt=Math.min((t-last)/1000,0.033); last=t; if(!paused){update(dt*speed*slow); render()} requestAnimationFrame(loop)}
+function update(dt){ player.fire-=dt; if(player.fire<=0){fire();player.fire=.16} if(Math.random()<dt*(1.2+stage*.1)){spawnEnemy()} enemies.forEach(e=>{e.y+=e.v*dt; if(e.shoot){e.cool-=dt;if(e.cool<=0){e.cool=1.2;particles.push({x:e.x,y:e.y,vx:0,vy:160,life:3,type:'enemyBullet'})}}}); if(boss){boss.cool-=dt;if(boss.cool<=0){boss.cool=.6; for(let i=-1;i<=1;i++)particles.push({x:boss.x,y:boss.y+45,vx:i*80,vy:170,life:3,type:'enemyBullet'})}} bullets.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt}); particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt}); bullets=bullets.filter(b=>b.life>0&&b.y>-80&&b.y<H+80); particles=particles.filter(p=>p.life>0&&p.y<H+100); collide(); enemies=enemies.filter(e=>e.hp>0&&e.y<H+80); updateUI();}
+function fire(){ const lv=weapons.straight; const patterns=[0, -8,8, -15,15, -28,28].slice(0, lv===1?1:lv===2?2:lv===3?4:lv===4?5:7); patterns.forEach(a=>{let rad=a*Math.PI/180;bullets.push({x:player.x,y:player.y-35,vx:Math.sin(rad)*280,vy:-520*Math.cos(rad),dmg:10+stage,life:2,type:'straight'})}); if(weapons.laser>0) bullets.push({x:player.x,y:player.y-240,vx:0,vy:0,dmg:2+weapons.laser,life:.12,type:'laser',w:16+weapons.laser*5,h:420});}
+function spawnEnemy(){ if(boss)return; const types=['normal','normal','fast','bomber']; const type=types[Math.floor(Math.random()*types.length)]; const hp= type==='bomber'?45+stage*5:type==='fast'?12+stage*2:20+stage*3; enemies.push({x:30+Math.random()*(W-60),y:-40,hp,maxHp:hp,v:type==='fast'?150:type==='bomber'?45:80,type,shoot:type==='bomber',cool:1})}
+function spawnBoss(){boss={x:W/2,y:92,hp:700+stage*180,maxHp:700+stage*180,cool:.7};toast('WARNING BOSS')}
+function collide(){ for(const b of bullets){ if(b.type==='laser'){ enemies.forEach(e=>{ if(Math.abs(e.x-b.x)<b.w+20 && e.y<b.y+b.h/2 && e.y>b.y-b.h/2) e.hp-=b.dmg;}); if(boss&&Math.abs(boss.x-b.x)<80) boss.hp-=b.dmg; continue;} enemies.forEach(e=>{ if(Math.hypot(e.x-b.x,e.y-b.y)<24){e.hp-=b.dmg;b.life=0;if(weapons.chain>0){enemies.forEach(o=>{if(o!==e&&Math.hypot(o.x-e.x,o.y-e.y)<100+weapons.chain*20)o.hp-=5+weapons.chain*3})}}}); if(boss&&Math.hypot(boss.x-b.x,boss.y-b.y)<85){boss.hp-=b.dmg;b.life=0}} enemies.forEach(e=>{if(e.hp<=0){kills++;exp+=8;if(Math.random()<.45)particles.push({x:e.x,y:e.y,vx:0,vy:-45,life:.7,type:'gold',txt:'+2G'});if(kills>=killGoal&&!boss){ if(stage%5===0)spawnBoss(); else nextStage();}}}); if(boss&&boss.hp<=0){boss=null;kills=killGoal;nextStage();} particles.forEach(p=>{if(p.type==='enemyBullet'&&Math.hypot(p.x-player.x,p.y-player.y)<18){player.hp-=10;p.life=0}}); while(exp>=expNeed){exp-=expNeed;expNeed=Math.floor(expNeed*1.35+20);levelPoints++;document.getElementById('levelBtn').style.display='flex';document.getElementById('levelCount').textContent=levelPoints}}
+function nextStage(){stage++;kills=0;killGoal=20+stage*5;toast('STAGE '+stage);if(stage%5===0)setTimeout(spawnBoss,600)}
+function openLevel(){ if(levelPoints<=0)return; slow=.2; document.getElementById('levelModal').style.display='flex'; const opts=[['Straight +1','정면 화력 증가','straight'],['Laser +1','얇은 관통 레이저','laser'],['Chain +1','처치 지점 연쇄 피해','chain'],['Shield +1','기체 주변 보호막','shield']].sort(()=>Math.random()-.5).slice(0,3); document.getElementById('cards').innerHTML=opts.map((o,i)=>`<div class="card ${i==0?'gold':''}" onclick="choose('${o[2]}')"><h3>${o[0]}</h3><p>${o[1]}</p></div>`).join('')}
+function choose(w){weapons[w]=Math.min(5,(weapons[w]||0)+1); if(w==='straight')player.lv=Math.min(5,weapons[w]); levelPoints--;document.getElementById('levelModal').style.display='none';slow=1;if(levelPoints<=0)document.getElementById('levelBtn').style.display='none';document.getElementById('levelCount').textContent=levelPoints;updateUI()}
+window.choose=choose;
+function drawShip(x,y,lv,type){ctx.save();ctx.translate(x,y);ctx.scale(.27+.025*lv,.27+.025*lv);ctx.translate(-256,-256); ctx.fillStyle=type==='falcon'?'#f7f3e8':'#1f2937';ctx.strokeStyle='#111827';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(256,60);ctx.lineTo(190-lv*5,315);ctx.lineTo(256,420);ctx.lineTo(322+lv*5,315);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle=type==='falcon'?'#b91c1c':'#d97706';ctx.beginPath();ctx.moveTo(198,240);ctx.lineTo(105-lv*12,310);ctx.lineTo(210,330);ctx.closePath();ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(314,240);ctx.lineTo(407+lv*12,310);ctx.lineTo(302,330);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle=type==='falcon'?'#38bdf8':'#fb923c';ctx.beginPath();ctx.arc(256,255,18+lv*3,0,Math.PI*2);ctx.fill();ctx.restore()}
+function render(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#071127';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(56,189,248,.08)';for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y+(performance.now()/40%40));ctx.lineTo(W,y+(performance.now()/40%40));ctx.stroke()} bullets.forEach(b=>{ if(b.type==='laser'){ctx.fillStyle='rgba(56,189,248,.28)';ctx.fillRect(b.x-b.w/2,b.y-b.h/2,b.w,b.h);ctx.fillStyle='rgba(255,255,255,.55)';ctx.fillRect(b.x-2,b.y-b.h/2,4,b.h)} else {ctx.fillStyle='#f6d35c';ctx.beginPath();ctx.arc(b.x,b.y,4,0,7);ctx.fill()}}); enemies.forEach(e=>{ctx.save();ctx.translate(e.x,e.y);ctx.fillStyle=e.type==='bomber'?'#7f1d1d':e.type==='fast'?'#fb923c':'#ef4444';ctx.beginPath();ctx.moveTo(0,22);ctx.lineTo(-18,-18);ctx.lineTo(18,-18);ctx.closePath();ctx.fill();ctx.restore()}); if(boss){ctx.fillStyle='#991b1b';ctx.fillRect(boss.x-80,boss.y-45,160,90);ctx.fillStyle='#f6d35c';ctx.fillRect(20,40,(W-40)*(boss.hp/boss.maxHp),10);ctx.strokeStyle='#fff';ctx.strokeRect(20,40,W-40,10)} particles.forEach(p=>{if(p.type==='enemyBullet'){ctx.fillStyle='#fb923c';ctx.beginPath();ctx.arc(p.x,p.y,6,0,7);ctx.fill()}else if(p.type==='gold'){ctx.fillStyle='#f6d35c';ctx.font='bold 14px Arial';ctx.fillText(p.txt,p.x,p.y)}}); drawShip(player.x,player.y,player.lv,selected); if(weapons.shield>0){ctx.strokeStyle='rgba(56,189,248,.5)';ctx.lineWidth=3;ctx.beginPath();ctx.arc(player.x,player.y,45+weapons.shield*8,0,7);ctx.stroke()}}
+function updateUI(){document.getElementById('stageText').textContent='STAGE '+stage+(boss?' / BOSS':'');document.getElementById('killText').textContent='KILL '+Math.min(kills,killGoal)+'/'+killGoal;document.getElementById('stageFill').style.width=(Math.min(kills/killGoal,1)*100)+'%';document.getElementById('hpFill').style.width=Math.max(player.hp/player.maxHp*100,0)+'%';document.getElementById('expFill').style.width=Math.min(exp/expNeed*100,100)+'%';document.getElementById('weaponText').innerHTML=`Straight Lv${weapons.straight}<br>Laser Lv${weapons.laser}<br>Chain Lv${weapons.chain}<br>Shield Lv${weapons.shield}`}
+</script>
+</body>
+</html>
