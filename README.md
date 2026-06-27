@@ -1,30 +1,22 @@
-# GO AIR RAID v0.7 - Phase 1 Asset Build
+# Project K - GO AIR RAID v1.0.0 Foundation
+
+GitHub Pages 업로드용 빌드입니다.
 
 ## 반영 내용
-- Phase 1 게임용 에셋 포함
-  - Falcon 5단계 SVG
-  - Hawk 5단계 SVG
-  - 적 6종 SVG
-  - UI 아이콘 SVG
-- 기체 도감 이미지 적용
-- 로비 선택 기체 대형 이미지 적용
-- 출격 버튼 문구 `게임시작!!` 적용
-- 일일 미션 수령 버튼 버그 수정
-- 좌측 x1 / x2 / x3 배속 기능 추가
-- AUTO AI 이동 개선
-- OVER DRIVE 게이지 소모 방식 유지
-- 처치 보상 플로팅 텍스트 추가
-- 레벨업 카드 5초 자동 선택 추가
+- 수동 조작 우선 버전
+- Falcon / Vulcan 기체 2종
+- 기체별 Lv1~Lv5 SVG 에셋 적용
+- 좌측 하단 Level Up Core 방식
+- 배속 버튼 1개 순환 방식: x1 > x2 > x3 > x1
+- 레벨업 선택 중 게임 속도 20%
+- 레이저 화면 가림 완화
+- 인게임 HUD 정리
+- 로비 하단 HUD: 연구소 / 기체 / 도감
+- 일일 미션 아이콘 및 수령/저장 처리
+- Gold / RP / Pilot 저장
 
-## GitHub 업로드
-ZIP 파일 자체가 아니라 압축 해제 후 내부 파일/폴더를 업로드하세요.
+## 업로드 방법
+압축 해제 후 내부 파일 전체를 GitHub 저장소 루트에 업로드하세요.
 
-필수 업로드:
-- index.html
-- css/
-- js/
-- assets/
-- README.md
-
-권장 커밋 메시지:
-`v0.7 Phase 1 Asset Build`
+커밋 메시지 추천:
+`v1.0.0 Project K Foundation`
